@@ -90,18 +90,3 @@ function showsharetools(){
         $(".add-comment").removeClass("appear");
     },100);
 }
-function showIdentityBox(){
-    var message = $(".addcomment").val();
-    if($.trim(message)==""){
-        StuCampus.alert("你还没有输入内容呢");
-        return false;
-    }
-    $(".background").show();
-    $(".background").bind('click',function(){
-        $(".background").hide();
-        $(".ds-dialog-inner").hide();
-        $(".ds-dialog-inner > input").val("");
-    });
-    StuCampus.alert("点击灰区关闭tips",5000);
-    $(".ds-dialog-inner").show();
-}

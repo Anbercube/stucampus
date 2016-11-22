@@ -1,19 +1,23 @@
-{% extends 'base.html' %}
+    {% extends 'base.html' %}
 
-{% block htmltitle %}
-<title>{{ article.title }} - 深圳大学学子天地</title>
-{% endblock %}
+    {% block htmltitle %}
+    <title>{{ article.title }} - 深圳大学学子天地</title>
+    {% endblock %}
 
-{% block htmlhead %}
+    {% block htmlhead %}
     {% load html_tools %}
     {% load qiniu_tools %}
     <link href="/static/styles/articles/article-phone.css" rel="stylesheet" type="text/css" media="screen and (max-width:767px)" />
     <link href="/static/styles/articles/article-pc.css" rel="stylesheet" type="text/css" media="screen and (min-width:768px)" />
+
+    {{ 'global.js' | as_js }}
+    {{ 'plugins/jquery.lazyload.min.js' | as_js }}
     {{ 'artical.js' | as_js }}
     {{ 'articles/duoshuo.css' | as_css }}
-{% endblock %}
+    {% endblock %}
 
-{% block content %}
+    {% block content %}
+
     <a href="javascript:void(0)" id="backTop" class="btn" style="bottom: 1.6rem;">
         <div></div>
         <img src="/static/images/articles/top_48.png" alt="顶部" />
@@ -26,7 +30,7 @@
         <div></div>
         <img src="/static/images/articles/comment_48.png" alt="评论" />
     </a>
-	<div class="artical-header">
+    <div class="artical-header">
         <div class="artical-cover">
             <img src="{{ article.cover.name | scale_qiniu_img:request}}">
         </div>
@@ -37,101 +41,178 @@
     <div class="artical-main">
         <p class="artical-information">由 {{ article.author }} 发表于 <a href="/articles/{{ article.category.english_name }}/">{{ article.category }}</a></p>
         <div class="artical-text">
-		{% autoescape off %}
-			{{ article.content |scale_ueditor_img:request}}
-		{% endautoescape %}
-		</div>
-        <div class="artical-foot">
-            <p class="editor">责任编辑: {{ article.editor.last_name }}{{ article.editor.first_name }}</p>
-            <div class="like-content">
-                <!--<img class="left" src="/static/images/like.png"><p  class="left">99999</p>-->
-                <p class="artical-time">{{ article.create_date | date:"Y-n-d"}}</p>
-                <span class="comment_img"></span><p class="comment_p">{{ article.comments }}</p>
-                <span class="eye_img"></span><p class="eye_p">{{ article.click_count }}</p>
-                </div>
-                <hr />
-                <div class="sharebox" id="sharebox">
-                    <span>分享到：</span>
-                    <a class="backarticalfoot" href="javascript:void(0)"><span class="close_img"></span><p>返回</p></a>
-                    <a id="wechat" href="http://service.weibo.com/share/share.php?url=http://stu.szu.edu.cn{% url 'articles:display' article.pk %}&title={{ article.title }}-深圳大学学子天地&pic=http://stu.szu.edu.cn{{ article.cover.name }}" target="_blank"><span class="wechat_img"></span><p>微信</p></a>
-                    <a id="weibo" href="http://service.weibo.com/share/share.php?url=http://stu.szu.edu.cn{% url 'articles:display' article.pk %}&title={{ article.title }}-深圳大学学子天地&pic=http://stu.szu.edu.cn{{ article.cover.name }}" target="_blank"><span class="weibo_img"></span><p>微博</p></a>
-                    <a id="QQ" href="http://connect.qq.com/widget/shareqq/index.html?url=http://stu.szu.edu.cn{% url 'articles:display' article.pk %}&title={{ article.title }}-深圳大学学子天地&desc=&summary=&site=" target="_blank"><span class="QQ_img"></span><p>QQ</p></a>
-                    <a id="twitter" href="http://s.share.baidu.com/?click=1&url=http://stu.szu.cn{% url 'articles:display' article.pk %}&uid=0&to=twi&type=text&pic=&title={{ article.title }}-深圳大学学子天地&key=&desc=&comment=&relateUid=&searchPic=0&sign=on&l=1afglci3o1afglcj3k1afgokghr&linkid=imm21dvnzhc&firstime=" target="_blank"><span class="twitter_img"></span><p>Twitter</p></a>
-                </div>
-                <a class="foot share" href="javascript:showsharetools()"><img id="share_normal" src="/static/images/articles/share_48.png"><img id="share_active" src="/static/images/articles/share_48.png"><p>分享</p></a>
-                <a class="foot comment" href="javascript:void(0)"><img id="comment_normal" src="/static/images/articles/comment_48.png"><img id="comment_active" src="/static/images/articles/comment_48.png"><p>评论</p></a>
-                <hr />
-                <div class="add-comment">
-                    <a class="backarticalfoot" href="javascript:void(0)"></a>
-                    <textarea class="addcomment" placeholder="说点什么吧......"></textarea> 
-                    <a class="submit" href="javascript:showIdentityBox()"></a>
-                </div>
-            </div>
+          {% autoescape off %}
+          {{ article.content |scale_ueditor_img:request}}
+          {% endautoescape %}
+      </div>
+      <div class="artical-foot">
+        <p class="editor">责任编辑: {{ article.editor.last_name }}{{ article.editor.first_name }}</p>
+        <div class="like-content">
+            <!--<img class="left" src="/static/images/like.png"><p  class="left">99999</p>-->
+            <p class="artical-time">{{ article.create_date | date:"Y-n-d"}}</p>
+            <span class="comment_img"></span><p class="comment_p">{{ article.comments }}</p>
+            <span class="eye_img"></span><p class="eye_p">{{ article.click_count }}</p>
         </div>
-        <!--duoshuodenglu-->
-        <div class="background"></div>
-        <div class="ds-dialog-inner" style="display:none;">
-            <div class="shadow"></div>
-            <b>作为游客留言</b>
-            <input name="author_name" type="text" placeholder="姓名">
-            <input name="author_email" type="email" placeholder="邮箱">
-            <a href="javascript:sendMessageToDuoshuo()">提交</a>
+        <hr />
+        <div class="sharebox" id="sharebox">
+            <span>分享到：</span>
+            <a class="backarticalfoot" href="javascript:void(0)"><span class="close_img"></span><p>返回</p></a>
+            <a id="wechat" href="http://service.weibo.com/share/share.php?url=http://stu.szu.edu.cn{% url 'articles:display' article.pk %}&title={{ article.title }}-深圳大学学子天地&pic=http://stu.szu.edu.cn{{ article.cover.name }}" target="_blank"><span class="wechat_img"></span><p>微信</p></a>
+            <a id="weibo" href="http://service.weibo.com/share/share.php?url=http://stu.szu.edu.cn{% url 'articles:display' article.pk %}&title={{ article.title }}-深圳大学学子天地&pic=http://stu.szu.edu.cn{{ article.cover.name }}" target="_blank"><span class="weibo_img"></span><p>微博</p></a>
+            <a id="QQ" href="http://connect.qq.com/widget/shareqq/index.html?url=http://stu.szu.edu.cn{% url 'articles:display' article.pk %}&title={{ article.title }}-深圳大学学子天地&desc=&summary=&site=" target="_blank"><span class="QQ_img"></span><p>QQ</p></a>
+            <a id="twitter" href="http://s.share.baidu.com/?click=1&url=http://stu.szu.cn{% url 'articles:display' article.pk %}&uid=0&to=twi&type=text&pic=&title={{ article.title }}-深圳大学学子天地&key=&desc=&comment=&relateUid=&searchPic=0&sign=on&l=1afglci3o1afglcj3k1afgokghr&linkid=imm21dvnzhc&firstime=" target="_blank"><span class="twitter_img"></span><p>Twitter</p></a>
         </div>
-        <script>
-            function sendMessageToDuoshuo(){
-                var author_name = $("input[name='author_name']").val();
-                var author_email = $("input[name='author_email']").val();
-                var message = $(".addcomment").val();
-                var posturl="http://gearliu.duoshuo.com/api/posts/create.json";
-                if(author_name!="" && author_email!=""){
-                    var Data="short_name=szustu&thread_key=article-comments-{{ article.id }}&message="+message+"&nonce=5700b85f9282b&author_name="+author_name+"&author_email="+author_email+"&v=16.3.18";
-                        console.log(Data);
-                }
-                else{
-                    StuCampus.alert("请补全您的姓名和邮箱.",5000);
-                }
-                $.post(posturl,Data,function(result,status){
-                    if(status=='success'){
-                        d = result;
-                        var defaulticonurl="http://static.duoshuo.com/images/noavatar_default.png";
-                        if(result['response']["status"]=="approved"){
-                            userurl = result["response"]["author"]["url"]==null?'javascript:void(0)':result["response"]["author"]["url"];
-                            useravatarurl = result["response"]["author"]["avatar_url"]==null?defaulticonurl:result["response"]["author"]["avatar_url"];
-                            $(".ds-thread").prepend('<div class="comments"><a class="user_info" href='+userurl+'><img class="avatar" src='+useravatarurl+'><p class="name" >'+result["response"]["author"]["name"]+'</p><p class="c_createtime">'+result["response"]["created_at"]+'</p><!--<a class="reply" href="javascript:void(0)"><img src="/static/images/index/reply_32.png"><p>回复</p></a><a class="like" href="javascript:void(0)"><img src="/static/images/index/unfavorite_32.png"><p>'+result['response']['likes']+'</p>--></a></a><span class="message">'+result["response"]["message"]+'</span></div>');
-                            $(".add-comment").removeClass("appear");
-                            $(".addcomment").val("");
-                            $(".add-comment").addClass("scale1");
-                        }
-                    }
-                    else{
-                        $(".ds-dialog-inner").show();
-                    }
-                });
-            };
-        </script>
-        <div class="comment-main">
-        <!-- Duoshuo Comment BEGIN -->
-            <div class="ds-thread" data-thread-key="article-comments-{{ article.id }}" data-title="{{ article.title }}">
+        <a class="foot share" href="javascript:showsharetools()"><img id="share_normal" src="/static/images/articles/share_48.png"><img id="share_active" src="/static/images/articles/share_48.png"><p>分享</p></a>
+        <a class="foot comment" href="javascript:void(0)"><img id="comment_normal" src="/static/images/articles/comment_48.png"><img id="comment_active" src="/static/images/articles/comment_48.png"><p>评论</p></a>
+        <hr />
+        {% if not user.is_authenticated %}
+        <div class="add-comment-cover">登录完才能评论哦..<a id="loginAndBack" href="../account/signin?redirect=/articles/{{article.id}}">点这里登录</a>
+        </div>
+        {% endif %}
+        <div class="add-comment" id="comment">
+            <form name="comment" method="post" action="/comment/comment_upload" id = "comment_form">
+                {% csrf_token %}
+                <a class="backarticalfoot" href="javascript:void(0)"></a>
+                {% for field in form %}
+                {{ field }}
+                <a class="comment_errormsg">
+                    {{ field.errors}}
+                </a>
+                {% endfor %}
+                <a class="submit"></a> 
+            </form>
+        </div>
+    </div>
+    </script>
+    </div>
+    <div class="comment-main">
+        <div class="ds-thread" data-thread-key="article-comments-{{ article.id }}" data-title="{{ article.title }}">
             {% if comments %}
-                {% for comment in comments %}
+            {% for comment in comments %}
                 <div class="comments">
-                    <a class="user_info" href="{{ comment.author.url }}">
-                        <img class="avatar" src="{{ comment.author.avatar_url }}" alt="{{ comment.author.name }}">
-                        <p class="name" >{{ comment.author.name }}</p>
-                        <p class="c_createtime">{{ comment.created_at }}</p>
-                        <!--<a class="reply" href="javascript:void(0)"><img src="/static/images/index/reply_32.png"><p>回复</p></a>
-                        <a class="like" href="javascript:void(0)"><img src="/static/images/index/unfavorite_32.png"><p>{{ comment.likes }}</p></a>-->
-                    </a>
-                    <span class="message">
+                  <div class="user_info">
+                    <img class="avatar" alt="{{comment.editor.screen_name}}'s avatar">
+                    <p class="name" >{{ comment.editor.screen_name }}</p>
+                    <p class="c_createtime">{{ comment.create_date | date:"Y-n-d"}}</p>
+                    <!--<a class="reply" href="javascript:void(0)"><img src="/static/images/index/reply_32.png"><p>回复</p></a>
+                    <a class="like" href="javascript:void(0)"><img src="/static/images/index/unfavorite_32.png"><p>{{ comment.likes }}</p></a>-->
+                    {% if user.student == comment.editor%}
+                    <a class="deletebtn" id="{{ comment.pk }}" >删除</a>
+                    {% endif%}
+                </div>
+                <a class="message">
                     {% autoescape off %}
-                        {{ comment.message }}
+                    {{ comment.content }}
                     {% endautoescape %}
-                    </span>
+                </a>
                 </div>
                 {% endfor %}
-            {% endif %}
-            </div>
-        <!-- Duoshuo Comment END -->
+        {% endif %}
+
         </div>
-<!--end of central article-->
-{% endblock %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $.ajaxSetup({
+                  data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+                });
+
+                var total = $(".comments").length;
+
+    			for(var i = 0 ; i < total ;++i)
+    			{
+        			var profindex =Math.round(Math.random()*3);
+        			var newstr = "/static/images/articles/avatar"+profindex+".jpg";
+        			$(".comments:eq("+i+")").find(".avatar").attr("src",newstr);
+    			}
+
+    			//评论删除
+                function delete_comment(id){
+                    var comment_id = id;
+                    var comment = $(".deletebtn").filter("#"+id).parent().parent();
+                    $.ajax({
+                        type: "POST",
+                        url: "../comment/del_comment/",
+                        data: {'id':comment_id},
+                        success: function(data){
+                            if(data.status=='errors'){
+                                StuCampus.notice("无权删除此评论");
+                                return false;
+                            }
+                            var comment_id = data;
+                            comment.slideUp(250,function(){
+                                comment.remove();
+                            });
+                            var num = parseInt($(".comment_p").text());
+                            num -= 1;
+                            $(".comment_p").text(num);
+                        }
+                    })
+                }
+
+                //添加评论
+                $(".submit").click(function(){
+                    var content = $(".addcomment").val();
+                    var path = window.location.pathname;
+                    var strs = path.split("/");
+                    var article_id = strs[2];   
+
+                    var my_data = {
+                        'content' : content,
+                        'article_id' : article_id,
+                    }
+                    $.ajax({
+                        type: "POST",
+                        data: my_data,
+                        url: "../comment/comment_upload/",
+                        dataType:"json",
+
+                        success: function(data){
+                            if(data.status == "errors"){
+                                StuCampus.notice("评论不能为空",2000);
+                                return false;
+                            }//动态显示新增的评论
+                            //清空评论框
+                            $(".addcomment").attr("value",'');
+                            //创建元素
+                            var comment = "<div class='to_add'></div>";
+                            var user_info = "<div class='user_info'></div>";
+                            var img = "<img  class='avatar'>";
+                            var name = "<p class='name'></p>";
+                            var c_createtime = "<p class='c_createtime'></p>";
+                            var deletebtn = "<a class='deletebtn'>删除</a>";
+                            var message = "<a class='message'></a>";
+                            //添加节点
+                            $(".ds-thread").prepend(comment);
+                            $(".to_add").append(user_info);
+                            $(".to_add").children().append(img);
+                            $(".to_add").children().append(name);
+                            $(".to_add").children().append(c_createtime);
+                            $(".to_add").children().append(deletebtn);
+                            $(".to_add").children().after(message);
+                            //设置新增评论的内容
+                            $(".to_add").children().children().filter(".avatar").attr("alt",data['screen_name']+"'s avatar");
+                            $(".to_add").children().children().filter(".name").append(data['screen_name']);
+                            $(".to_add").children().children().filter(".c_createtime").append(data['create_date']);
+                            $(".to_add").children().children().filter(".deletebtn").attr("id",data['comment_id']);
+                            $(".to_add").children().last().text(data['content']);
+                            //显示新增评论
+                            $(".to_add").css("display","none");
+                            $(".to_add").attr("class","comments");
+                            $(".comments").slideDown(250);
+                            //评论数加一
+                            var num = parseInt($(".comment_p").text());
+                            num += 1;
+                            $(".comment_p").text(num);
+                        }
+                    });
+                });
+
+                $(".deletebtn").live("click",function(){
+                    delete_comment($(this).attr("id"));
+                });
+            });
+        </script>
+    </div>
+
+    <!--end of central article-->
+    {% endblock %}

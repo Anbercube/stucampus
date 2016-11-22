@@ -11,6 +11,7 @@ from stucampus.master import urls as master_urls
 from stucampus.account import urls as account_urls
 from stucampus.organization import urls as organization_urls
 from stucampus.articles import urls as articles_urls
+from stucampus.comment import urls as comment_urls
 from stucampus.magazine import urls as magazine_urls
 from stucampus.lecture import urls as lecture_urls
 from stucampus.activity import urls as activity_urls
@@ -39,6 +40,8 @@ urlpatterns = [
     #url(r'^infor/', include('stucampus.infor.urls', namespace='infor')),
     url(r'^articles/', include(articles_urls,
                                 namespace='articles')),
+    url(r'^comment/', include(comment_urls,
+                               namespace='comment')),
     url(r'^magazine/', include(magazine_urls,
                                 namespace='magazine')),
     url(r'^lecture/', include(lecture_urls,

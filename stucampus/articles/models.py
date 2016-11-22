@@ -35,7 +35,7 @@ class Article(models.Model):
     content = UEditorField(height=500, width=900, toolbars='full')
     category = models.ForeignKey(Category, null=True,
                                  on_delete=models.SET_NULL)
-
+    comments = models.IntegerField(default=0, editable=False)
     author = models.CharField(max_length=30)
     editor = models.ForeignKey(User)
     source = models.CharField(max_length=50, blank=True, null=True)
@@ -48,9 +48,10 @@ class Article(models.Model):
     deleted = models.BooleanField(default=False)
     important = models.BooleanField(default=False)
     publish = models.BooleanField(default=False)
+    '''
     likes=models.IntegerField(default=0,blank=True,null=True)#该字段由多说负责
     comments=models.IntegerField(default=0,blank=True,null=True)#该字段由多说负责
-
+    '''
     def save(self, *args, **kwargs):
         '''
         数据库保存的时候，会自动上传图片到七牛

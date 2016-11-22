@@ -8,6 +8,8 @@ from django.views.generic import View
 from django.core.paginator import InvalidPage, Paginator
 from django.utils.decorators import method_decorator
 
+from stucampus.comment.models import Comment
+from stucampus.comment.forms import CommentForm
 from stucampus.articles.forms import ArticleForm
 from stucampus.articles.forms import CategoryFormset
 from stucampus.articles.models import Article, Category
@@ -178,9 +180,12 @@ def article_list(request, category=None):
 def article_display(request, id=None):
     article = get_object_or_404(Article, pk=id, publish=True, deleted=False)
     article.click_count += 1
+    article_id = article.id
     article.save()
-    comments=DuoShuo.getListPosts(article.id)
-    article = DuoShuo.appendNumToArticle(article)
-    return render(request, 'articles/article-display.html',
-            {'article': article,'comments':comments})
-
+    form = CommentForm()
+    ctx = {
+        'article': article,
+        'form': form,
+        'comments': Comment.objects.filter(article = article_id).order_by('-create_date'),
+    }
+    return render(request, 'articles/article-display.html', ctx)

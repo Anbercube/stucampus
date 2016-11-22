@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'stucampus.carousels',
     'stucampus.member_infor',
     'stucampus.summer_plans',
+    'stucampus.comment',
 
     # 'stucampus.dreamer',
     'stucampus.FreeTimeCount',

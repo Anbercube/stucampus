@@ -7,7 +7,6 @@ from stucampus.articles.views import CategoryView
 
 from stucampus.articles.views import article_list, article_display
 
-
 urlpatterns = [
     url(r'^manage/?$', manage, name='manage'),
     url(r'^add/?$', AddView.as_view(), name='add'),

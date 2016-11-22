@@ -11,9 +11,11 @@
     padding: 1.6rem 0 0 0;
     border-bottom: 1px solid rgba(0,0,0,0.08);
 }
+.to_add{
+    display: none;
+}
 @media screen and (max-width: 767px){
     .user_info{
-        display: block;
         position: relative;
         height: 2.4rem;
         overflow: hidden;
@@ -30,7 +32,7 @@
         position: absolute;
         left: 4.0rem;
         display: block ;
-        width: 10.266667rem ;
+        width: 14.285714rem;
         height: 0.933333rem; 
         color: #5BC5BE ;
         font-size: 0.933333rem; 
@@ -81,6 +83,7 @@
         font-size: 0.933333rem;
         line-height: 1.6rem;
         color: rgba(0,0,0,0.87);
+        word-wrap: break-word
     }
     .background{
         display: none;
@@ -151,6 +154,28 @@
         z-index: 100;
         transition:left 0.5s ease-in;
     }
+    .add-comment-cover{
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: -21.8rem;
+        margin:0.8rem 0;
+        height: 3.46667rem;
+        line-height: 3.46667rem;
+        width: 21.8rem;
+        background-color: rgba(224,242,241 ,0.3);
+        z-index: 101;
+        transition:left 0.5s ease-in;
+        text-align: center;
+        font-size: 0.8em;
+    }
+    .add-comment-cover a{
+        text-decoration: none;
+        color: rgba(56, 195, 169, 0.68);
+    }
+    .add-comment-cover a:hover{
+        color: #38c2a8;
+    }
     .backarticalfoot{
         position: absolute;
         top: 1.6rem;
@@ -178,14 +203,25 @@
         height: 1.6rem;
         background-image: url('/static/images/index/send_32.png');
         background-size: 100%;
+        cursor:pointer;
     }
     .appear{
         left: 0;
     }
+    .deletebtn{
+        text-decoration: none;
+        color: #767676;
+        font-size: 0.6em;
+        position: absolute;
+        right: 1.5rem;
+        cursor:pointer;
+    }
+    .deletebtn:hover{
+        color: black;
+    }
 }
 @media screen and (min-width: 768px){
     .user_info{
-        display: block;
         position: relative;
         height: 1.6rem;
         overflow: hidden;
@@ -202,7 +238,7 @@
         position: absolute;
         left: 2.6667rem;
         display: block ;
-        width: 10.266667rem ;
+        width: 14.285714rem;
         height: 0.6rem ; 
         color: #5BC5BE ;
         font-size: 0.6rem ; 
@@ -252,6 +288,10 @@
         font-family: "SourceHanSans-Light","Roboto-Light","Microsoft YaHei";
         font-size: 0.6rem;
         color: rgba(0,0,0,0.87);
+        word-wrap: break-word
+    }
+    .message span{
+    color: #7e7e7e;
     }
     .background{
         display: none;
@@ -316,6 +356,26 @@
         background-color: #FDFDFD;
         z-index: 100;
     }
+    .add-comment-cover{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin:1.6rem 0;
+        height: 3.46667rem;
+        line-height: 3.46667rem;
+        width: 100%;
+        background-color: rgba(224,242,241 ,0.3);
+        z-index: 101;
+        font-size: 0.8em;
+        text-align: center;
+    }
+    .add-comment-cover a{
+        text-decoration: none;
+        color: rgba(56, 195, 169, 0.68);
+    }
+    .add-comment-cover a:hover{
+        color: #38c2a8;
+    }
     .backarticalfoot{
         display: none;
     }
@@ -341,5 +401,17 @@
         height: 1.06667rem;
         background-image: url('/static/images/index/send_32.png');
         background-size: 100%;
+        cursor:pointer;
+    }
+   .deletebtn{
+        text-decoration: none;
+        color: #767676;
+        font-size: 0.6em;
+        position: absolute;
+        right: 1.5rem;
+        cursor:pointer;
+    }
+    .deletebtn:hover{
+        color: black;
     }
 }
